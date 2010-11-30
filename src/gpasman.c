@@ -443,7 +443,7 @@ void set_widgets_sensitive(gboolean open_value, gboolean modified_value)	{
  */
 void tree_selection_changed(GtkTreeSelection *selection, GtkEntry *clipb_entry)	{
 	GtkTreeModel *model;
-	gchar *clipb_user;  /* username; to set into clipboard */
+	gchar *clipb_user = NULL;  /* username; to set into clipboard */
 	
 	if(clipboard_used)	{
 		gtk_entry_set_text(clipb_entry, "\0");
@@ -451,10 +451,11 @@ void tree_selection_changed(GtkTreeSelection *selection, GtkEntry *clipb_entry)	
 		gtk_editable_copy_clipboard(GTK_EDITABLE(clipb_entry));
 		clipboard_used = GPASMAN_CLIPB_EMPTY;
 	}
-	gtk_tree_selection_get_selected(selection, &model, &selected_row);
-	gtk_tree_model_get(model, &selected_row,
-					COLUMN_USER, &clipb_user,
-					-1);
+	
+	if (gtk_tree_selection_get_selected(selection, &model, &selected_row)) {
+		gtk_tree_model_get(model, &selected_row, COLUMN_USER, &clipb_user, -1);
+	}
+
 	if(clipb_user)	{
 		gtk_entry_set_text(GTK_ENTRY(clipb_entry), clipb_user);
 		/*
