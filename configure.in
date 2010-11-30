@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([gpasman], [1.9.3], [http://sourceforge.net/tracker/?atid=545150&group_id=75814&func=browse])
+AC_INIT([gpasman], [1.9.3], [])
 AC_PREREQ(2.52)
 AC_CONFIG_SRCDIR(src/gpasman.c)
 #AC_PROG_INTLTOOL(0.23)
