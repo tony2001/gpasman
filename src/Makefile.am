@@ -18,13 +18,15 @@ DEBUG = #-g3
 EXTRA_CFLAGS = $(OPT) $(WARN) $(DEBUG)
 
 INCLUDES = \
-	$(GTK_CFLAGS)
+	$(GTK_CFLAGS) \
+	$(HILDON_CFLAGS)
 
 AM_CFLAGS = \
 	$(EXTRA_CFLAGS)
 
 gpasman_LDADD = \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(HILDON_LIBS)
 
 DEFS = -DLOCALEDIR=\"$(datadir)/locale\" @DEFS@
 

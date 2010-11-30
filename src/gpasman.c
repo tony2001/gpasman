@@ -3,6 +3,7 @@
    (C) 2003 T. Bugra Uytun <t.bugra@uytun.com>
    http://gpasman.sourceforge.net
 
+   (C) 2007 hildonization & misc code cleanup by Antony Dovgal <tony at daylessday dot org>
 
    Other code contributors:
    Dave Rudder, Chris Halverson, Matthew Palmer, Guide Berning, Jimmy Mason
@@ -32,22 +33,20 @@
 #include "gpasman.h"
 #include "file.h"
 
-#include "../pixmaps/gpasman.xpm"
+#include <hildon/hildon-program.h>
 
-#ifdef GTK_PATCH
-#include "gtk-patch.h"
-#endif
-
-/* 
- * SOME GLOBAL VARIABLES, DEFINITIONS, STRUCTS, ETC....
- */
+/*  SOME GLOBAL VARIABLES, DEFINITIONS, STRUCTS, ETC.... {{{ */
 GtkWidget *main_window, *statusbar, *clipb_entry;
+HildonProgram   *program;
+GtkWidget       *container;
+
 gchar *main_window_title;
 gint context_id;
 
 G_CONST_RETURN gchar *tmp_gchar_const;
 GtkWidget *pwd_entry;
 GtkItemFactory *item_factory;
+GtkTextBuffer *buf = NULL;
 
 
 GtkListStore *list_store;
@@ -81,8 +80,6 @@ typedef struct {
 	gint type;
 } gtkentry_struct;
 
-
-
 /* this is the struct for global variable current_set */
 typedef struct {
 	gboolean password;		/* if TRUE the the password is expanded internally
@@ -98,17 +95,9 @@ typedef enum {
 	GPASMAN_ENTRY_DIALOG_MODIFY
 } GpasmanEntryDialogType;
 
-/*
-#define GPASMAN_STOCK_UPDATE	"gtk-convert"
-static GtkStockItem gpasman_items[] =	{
-	{GPASMAN_STOCK_UPDATE, "_Edit", 0, 0, NULL}
-};
-*/
+/* }}} */
 
-
-/* 
- * FUNCTION LIST
- */
+/* prototypes {{{ */
 gint main(int argc, gchar * argv[]);
 void make_interface(void);
 static char *menu_translate(const char* path, gpointer data);
@@ -149,16 +138,14 @@ void info_dialog(gchar *message, gchar *title);
 
 void set_widgets_sensitive(gboolean open_value, gboolean modified_value);
 gint modified_check(gchar *message);
-
-
+/* }}} */
 
 /********************************************************************
  * PROGRAM BEGIN - MAIN
  ********************************************************************/
-gint main(int argc, gchar * argv[])
+gint main(int argc, gchar * argv[]) /* {{{ */
 {
 	/* localisation support */
-	//setlocale(LC_ALL, "");
 #ifdef ENABLE_NLS
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -167,7 +154,6 @@ gint main(int argc, gchar * argv[])
 	
 	gtk_init(&argc, &argv);
 current_set.password = FALSE;
-//current_set.modified = 0;
 current_set.filename = NULL;
 /* i have to set this to true at the beginning so that i can set the
  * widget to false with set_widgets_sensitive() */
@@ -194,14 +180,14 @@ main_window_title = PACKAGE_STRING;
 	gtk_main();
 	return 0;
 }
-
+/* }}} */
 
 /********************************************************************
  * USER INTERFACE STUFF
  ********************************************************************/
 
 /* menu factory */
-static GtkItemFactoryEntry menu_items[] = {
+static GtkItemFactoryEntry menu_items[] = { /* {{{ */
 	{N_("/_File"), NULL, NULL, 0, "<Branch>"},
 	{N_("/File/_Open"), "<control>O", file_open, 0, "<StockItem>", GTK_STOCK_OPEN},
 	{N_("/File/sep1"), NULL, NULL, 0, "<Separator>"},
@@ -223,21 +209,22 @@ static GtkItemFactoryEntry menu_items[] = {
 	{N_("/_Help/Help"), NULL, gpasman_help, 0, "<StockItem>", GTK_STOCK_HELP},
 	{N_("/_Help/About"), NULL, gpasman_about, 0, NULL},
 };
+/* }}} */
 
-static GtkItemFactoryEntry popup_items[] = {
+static GtkItemFactoryEntry popup_items[] = { /* {{{ */
 	{N_("/_Edit"), NULL, entry_change, 0, NULL},
 /*	{N_("/_New entry"), NULL, entry_new, 0, NULL}, */
 	{N_("/_Delete"), NULL, entry_remove, 0, NULL}
 };
-
+/* }}} */
 
 /*
  * creates the main window with all the gadgets
  */
-void make_interface(void)
+void make_interface(void) /* {{{ */
 {
-	GdkPixmap *icon = NULL;
-	GtkWidget *vbox, *hbox, *menubar, *label;
+	GtkWidget *vbox, *hbox, *menubar, *label, *menu;
+	GList *iter;
 	GtkTooltips *tooltips;
 	GtkWidget *scroll_win;
 	gint nmenu_items;
@@ -250,8 +237,14 @@ void make_interface(void)
 	GtkTreeViewColumn *tree_column;
 	GtkTreeSelection *tree_selection;
 
-		
-	main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	
+	program = HILDON_PROGRAM(hildon_program_get_instance());
+	g_set_application_name("gpasman");
+
+	main_window = hildon_window_new();
+
+	hildon_program_add_window(program, HILDON_WINDOW(main_window));
+
 	gtk_window_set_default_size(GTK_WINDOW(main_window), 600, 300);
 	gtk_window_set_title(GTK_WINDOW(main_window), main_window_title);
 	g_signal_connect(GTK_OBJECT(main_window), "delete_event",
@@ -277,7 +270,23 @@ void make_interface(void)
 	gtk_window_add_accel_group(GTK_WINDOW(main_window), accel_group);
 	
 	menubar = gtk_item_factory_get_widget(item_factory, "<main>");
-	gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, TRUE, 0);
+
+	/* convert menubar to menu */
+	menu = gtk_menu_new();
+	iter = gtk_container_get_children(GTK_CONTAINER (menubar));
+
+	while (iter) {
+		GtkWidget *submenu;
+
+		submenu = GTK_WIDGET (iter->data);
+		gtk_widget_reparent(submenu, menu);
+
+		iter = g_list_next (iter);
+	}
+
+	/* remove the usual menu, use the hildonized one */
+	/* gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, TRUE, 0); */ 
+	hildon_window_set_menu(HILDON_WINDOW(main_window), GTK_MENU(menu));
 
 	/* GtkTreeView */
 	list_store = gtk_list_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_STRING,
@@ -309,7 +318,6 @@ void make_interface(void)
 	cell_renderer = gtk_cell_renderer_text_new();
 	passwd_column = gtk_tree_view_column_new_with_attributes(_("Password"), cell_renderer,
 											"text", COLUMN_PASSWD, NULL);
-//	gtk_tree_view_column_set_sort_column_id(passwd_column, COLUMN_PASSWD);
 	gtk_tree_view_column_set_sizing(passwd_column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width(passwd_column, 150);
 	gtk_tree_view_column_set_resizable(passwd_column, TRUE);
@@ -319,13 +327,14 @@ void make_interface(void)
 	cell_renderer = gtk_cell_renderer_text_new();
 	comments_column = gtk_tree_view_column_new_with_attributes(_("Comments"), cell_renderer,
 											"text", COLUMN_COMMENT, NULL);
-//	gtk_tree_view_column_set_sort_column_id(comments_column, COLUMN_COMMENT);
 	gtk_tree_view_column_set_fixed_width(comments_column, 200);
 	gtk_tree_view_column_set_resizable(comments_column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), comments_column);
 	tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	gtk_tree_selection_set_mode(tree_selection, GTK_SELECTION_BROWSE);
 
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree_view), TRUE);
+	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(tree_view), GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 
 	/* scrolled window where GtkTreeView is inside */
 	scroll_win = gtk_scrolled_window_new(NULL, NULL);
@@ -378,10 +387,6 @@ void make_interface(void)
 	/* finaly main window gadgets */
 	gtk_widget_realize(main_window);
 	gtk_widget_show_all(main_window);
-	icon = gdk_pixmap_create_from_xpm_d(main_window->window, NULL,
-										NULL, (gchar **) gpasman_icon_xpm);
-	gdk_window_set_icon(main_window->window, NULL, icon, NULL);
-	gdk_window_set_icon_name(main_window->window, PACKAGE_STRING);
 	
 	/* Set "Show comments" menu item to on, which they are */
 	gtk_check_menu_item_set_active(
@@ -392,14 +397,17 @@ void make_interface(void)
 	/* set clipboard */
 	clipboard = gtk_widget_get_clipboard(GTK_WIDGET(main_window), 
 											GDK_SELECTION_PRIMARY);
+	/* Hildon/Maemo specific lines to make clipboard working */
+	gtk_clipboard_set_can_store (clipboard, NULL, 0);
+	gtk_clipboard_store(clipboard);
 }
+/* }}} */
 
-
-static char *menu_translate(const char *path, gpointer data)
+static char *menu_translate(const char *path, gpointer data) /* {{{ */
 {
     return (char *)gettext (path);
 }
-
+/* }}} */
 
 /* 
  * makes menu entries sensible
@@ -409,7 +417,8 @@ static char *menu_translate(const char *path, gpointer data)
  * GtkItemFactory doesn't allow direct translation, that is also the reason
  * why we have the menu_translate() function.
  */
-void set_widgets_sensitive(gboolean open_value, gboolean modified_value)	{
+void set_widgets_sensitive(gboolean open_value, gboolean modified_value) /* {{{ */
+{
 	if(open_value || !modified_value)	{
 		gtk_widget_set_sensitive(
 			gtk_item_factory_get_item(item_factory, "/File/Save"),
@@ -437,11 +446,13 @@ void set_widgets_sensitive(gboolean open_value, gboolean modified_value)	{
 	current_set.fileopen = open_value;
 	current_set.modified = modified_value;
 }
+/* }}} */
 
 /*
  * on selection change clears the clipboard entry content
  */
-void tree_selection_changed(GtkTreeSelection *selection, GtkEntry *clipb_entry)	{
+void tree_selection_changed(GtkTreeSelection *selection, GtkEntry *clipb_entry) /* {{{ */
+{
 	GtkTreeModel *model;
 	gchar *clipb_user = NULL;  /* username; to set into clipboard */
 	
@@ -458,23 +469,21 @@ void tree_selection_changed(GtkTreeSelection *selection, GtkEntry *clipb_entry)	
 
 	if(clipb_user)	{
 		gtk_entry_set_text(GTK_ENTRY(clipb_entry), clipb_user);
-		/*
 		gtk_editable_select_region(GTK_EDITABLE(clipb_entry), 0, -1);
 		gtk_editable_copy_clipboard(GTK_EDITABLE(clipb_entry));
-		*/
-		gtk_clipboard_set_text(clipboard, clipb_user, strlen(clipb_user));
 		gtk_entry_set_visibility(clipb_entry, TRUE);
 		clipboard_used = GPASMAN_CLIPB_USER;
 		statusbar_message(_("Username copied to clipboard"), 2000);
 	}
 		
 }
+/* }}} */
 
 /*
  * on a double click copies the passwd to clipboard (which is visible)
  */
-void tree_selection_activated(GtkTreeView *treeview, GtkTreePath *path,
-					GtkTreeViewColumn *column, GtkEntry *clipb_entry)	{
+void tree_selection_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, GtkEntry *clipb_entry) /* {{{ */
+{
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gchar *clipb_passwd;		/* password; to set into clipboard */
@@ -486,11 +495,8 @@ void tree_selection_activated(GtkTreeView *treeview, GtkTreePath *path,
 					-1);
 	if(clipb_passwd)	{
 		gtk_entry_set_text(GTK_ENTRY(clipb_entry), clipb_passwd);
-		/*
 		gtk_editable_select_region(GTK_EDITABLE(clipb_entry), 0, -1);
 		gtk_editable_copy_clipboard(GTK_EDITABLE(clipb_entry));
-		*/
-		gtk_clipboard_set_text(clipboard, clipb_passwd, strlen(clipb_passwd));
 		if(clipboard_show_passwd)
 			gtk_entry_set_visibility(clipb_entry, TRUE);
 		else
@@ -501,11 +507,13 @@ void tree_selection_activated(GtkTreeView *treeview, GtkTreePath *path,
 	selected_row = iter;
 
 }
+/* }}} */
 
 /*
  * on right mouse (mouse button 3) click creates popup menu
  */
-gboolean tree_selection_popup_menu(GtkWidget *widget, GdkEventButton *event)	{
+gboolean tree_selection_popup_menu(GtkWidget *widget, GdkEventButton *event) /* {{{ */
+{
 	gint npopup_items = 0;
 	GtkItemFactory *popup_item_factory = NULL;
 	GtkWidget *popup_menu = NULL;
@@ -527,9 +535,7 @@ gboolean tree_selection_popup_menu(GtkWidget *widget, GdkEventButton *event)	{
 	}
 	return FALSE;
 }
-
-			
-
+/* }}} */
 
 /********************************************************************
  * DIALOG WINDOWS
@@ -538,15 +544,18 @@ gboolean tree_selection_popup_menu(GtkWidget *widget, GdkEventButton *event)	{
 /*
  * helper for return_password()
  */
-void password_ok(GtkWidget *w, GtkWidget *dialog)	{
+void password_ok(GtkWidget *w, GtkWidget *dialog) /* {{{ */
+{
 	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 }
+/* }}} */
 
 /*
  * widget that asks for the main passwd 
  * helper for open_file()
  */
-void return_password()	{
+void return_password(void) /* {{{ */
+{
 	GtkWidget *dialog, *label, *table;
 	G_CONST_RETURN gchar *tmp;
 	gchar *label_str, *tmp2 = NULL;
@@ -573,6 +582,9 @@ void return_password()	{
 	
 	pwd_entry = gtk_entry_new_with_max_length(100);
 	gtk_entry_set_visibility(GTK_ENTRY(pwd_entry), 0);
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(pwd_entry), HILDON_GTK_INPUT_MODE_FULL | HILDON_GTK_INPUT_MODE_INVISIBLE);
+
 	g_signal_connect(GTK_OBJECT(pwd_entry), "activate",
 					 G_CALLBACK(password_ok), dialog);
 	gtk_table_attach_defaults(GTK_TABLE(table), pwd_entry, 0, 1, 1, 2);
@@ -600,13 +612,13 @@ void return_password()	{
 	gtk_widget_destroy(dialog);
 
 }
-
+/* }}} */
 
 /*
  * file selector widget
  * helper for file_open() and file_save_as()
  */
-void return_file()
+void return_file(void) /* {{{ */
 {
 	GtkWidget *fs;
 	gint fs_result;
@@ -625,12 +637,13 @@ void return_file()
 	}
 	gtk_widget_destroy(fs);
 }
-
+/* }}} */
 
 /*
  * opens the file and creates the TreeView
  */
-void load_file()	{
+void load_file(void) /* {{{ */
+{
 	gchar *entry[NUM_COLUMNS];
 	gint retval, count;
 
@@ -712,12 +725,12 @@ void load_file()	{
 	gpasman_debug("load_finalize retval=%d", retval);
 #endif
 }
-
+/* }}} */
 
 /*
  * helper for file_save and file_save_as
  */
-void save_file()
+void save_file(void) /* {{{ */
 {
 	gint retval;
 	char *entry[NUM_COLUMNS];
@@ -787,9 +800,9 @@ void save_file()
 	gtk_window_set_title(GTK_WINDOW(main_window), tmp_gchar_const);
 	tmp_gchar_const = NULL;
 }
+/* }}} */
 
-
-void file_close(GtkWidget *w, gpointer data)
+void file_close(GtkWidget *w, gpointer data) /* {{{ */
 {
 	if(modified_check(_("Do you want to save the changes you made to "
 						"your passwords before closing?\n\n"
@@ -799,9 +812,11 @@ void file_close(GtkWidget *w, gpointer data)
 		clear_entries();
 	}
 }
+/* }}} */
 
 /* helper for file_close() and file_open() */
-void clear_entries(void)	{
+void clear_entries(void) /* {{{ */
+{
 	gtk_list_store_clear(list_store);
 	gtk_entry_set_text(GTK_ENTRY(clipb_entry), "");
 	set_widgets_sensitive(FALSE, FALSE);
@@ -809,7 +824,7 @@ void clear_entries(void)	{
 	g_free(current_set.filename);
 	current_set.filename = NULL;
 }
-	
+/* }}} */
 
 /* 
  * helper for almost everything!
@@ -818,7 +833,7 @@ void clear_entries(void)	{
  * 2) to continue with saving
  * 3) cancel last operation request
  */
-gint modified_check(gchar *message)
+gint modified_check(gchar *message) /* {{{ */
 {
 	GtkWidget *dialog;
 	gint dialog_response;
@@ -854,17 +869,18 @@ gint modified_check(gchar *message)
 		return 1;
 	}
 }
-
+/* }}} */
 
 /*
  * dialog for editing or modifying an entry
  */
-void entry_dialog(gint type)	{
+void entry_dialog(gint type) /* {{{ */
+{
 	gtkentry_struct *dialog = NULL;
 	GtkWidget *table, *label;
 	gchar *window_title, *button_title;
 	gint dialog_response;
-//	GtkWidget *ok_button;
+	HildonGtkInputMode password_mode = HILDON_GTK_INPUT_MODE_FULL;
 
 	GtkTreeModel *model;
 	gchar *str_host, *str_user, *str_passwd, *str_comment;
@@ -872,12 +888,12 @@ void entry_dialog(gint type)	{
 	if(type == GPASMAN_ENTRY_DIALOG_ADD)	{
 		window_title = _("New entry");
 		button_title = _("_Add");
-//		ok_button = gtk_button_new_from_stock(GTK_STOCK_ADD);
+		/* make the password invisible only when entering it first */
+		password_mode |= HILDON_GTK_INPUT_MODE_INVISIBLE;
 	}
 	else	{
 		window_title = _("Edit entry");
 		button_title = _("_Edit");
-//		ok_button = gtk_button_new_with_mnemonic("_Edit");
 		if(!gtk_list_store_iter_is_valid(list_store, &selected_row)) {
 			statusbar_message(_("You have to select a host to update one..."), 8000);
 			g_free(dialog);
@@ -907,18 +923,24 @@ void entry_dialog(gint type)	{
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 	dialog->entry1 = gtk_entry_new_with_max_length(100);
 	gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry1, 1, 2, 0, 1);
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(dialog->entry1), HILDON_GTK_INPUT_MODE_FULL);
 	
 	label = gtk_label_new(_("User:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
 	dialog->entry2 = gtk_entry_new_with_max_length(50);
 	gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry2, 1, 2, 1, 2);
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(dialog->entry2), HILDON_GTK_INPUT_MODE_FULL);
 	
 	label = gtk_label_new(_("Password:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
 	dialog->entry3 = gtk_entry_new_with_max_length(50);
 	gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry3, 1, 2, 2, 3);
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(dialog->entry3), password_mode);
 	
 	label = gtk_label_new(_("Comment:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -955,11 +977,12 @@ void entry_dialog(gint type)	{
 	gtk_widget_destroy(dialog->window);
 	g_free(dialog);
 }
+/* }}} */
 
 /*
  * entry_dialog helper
  */
-void entry_dialog_ok(GtkWidget * w, gtkentry_struct * data)
+void entry_dialog_ok(GtkWidget * w, gtkentry_struct * data) /* {{{ */
 {
 	gchar *entry_text[4];
 	gint count;
@@ -995,10 +1018,9 @@ void entry_dialog_ok(GtkWidget * w, gtkentry_struct * data)
 	
 	set_widgets_sensitive(TRUE, TRUE);
 }
+/* }}} */
 
-
-
-void change_password(GtkWidget * button, gpointer data)
+void change_password(GtkWidget * button, gpointer data) /* {{{ */
 {
 	gtkentry_struct *dialog;
 	GtkWidget *label, *table;
@@ -1061,6 +1083,9 @@ void change_password(GtkWidget * button, gpointer data)
 	dialog->entry2 = gtk_entry_new_with_max_length(25);
 	gtk_entry_set_visibility(GTK_ENTRY(dialog->entry2), 0);
 	gtk_entry_set_text(GTK_ENTRY(dialog->entry2), "");
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(dialog->entry2), HILDON_GTK_INPUT_MODE_FULL | HILDON_GTK_INPUT_MODE_INVISIBLE);
+		
 	gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry2, 1, 2, 1, 2);
 
 	label = gtk_label_new(_("Confirm password:"));
@@ -1068,6 +1093,9 @@ void change_password(GtkWidget * button, gpointer data)
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
 	dialog->entry3 = gtk_entry_new_with_max_length(25);
 	gtk_entry_set_text(GTK_ENTRY(dialog->entry3), "");
+	/* turn off auto-caps-first */
+	hildon_gtk_entry_set_input_mode(GTK_ENTRY(dialog->entry3), HILDON_GTK_INPUT_MODE_FULL | HILDON_GTK_INPUT_MODE_INVISIBLE);
+
 	gtk_entry_set_visibility(GTK_ENTRY(dialog->entry3), 0);
 	gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry3, 1, 2, 2, 3);
 
@@ -1085,12 +1113,12 @@ void change_password(GtkWidget * button, gpointer data)
 	}
 	gtk_widget_destroy(dialog->window);
 }
-
+/* }}} */
 
 /*
  * change_password helper
  */
-void check_password(gtkentry_struct * data)
+void check_password(gtkentry_struct * data) /* {{{ */
 {
 	gchar *tmppass;
 
@@ -1100,15 +1128,6 @@ void check_password(gtkentry_struct * data)
 
 #define GSTRNDUP(entry)	g_strndup(gtk_entry_get_text(GTK_ENTRY(entry)), GPASMAN_MAX_PWD_LENGTH)
 	if (current_set.password) {
-/*		tmppass = GSTRNDUP(data->entry1);
-		if(g_strncasecmp(
-				current_set.password, tmppass, GPASMAN_MAX_PWD_LENGTH) != 0)
-		{
-			statusbar_message(_("Current master password incorrect"), 6000);
-			g_free(tmppass);
-			return;
-		}
-*/
 		tmppass = GSTRNDUP(data->entry2);
 		if(strlen(tmppass) < GPASMAN_MIN_PWD_LENGTH)	{
 			gchar *str1;
@@ -1127,8 +1146,6 @@ void check_password(gtkentry_struct * data)
 			g_free(tmppass);
 			return;
 		}
-		
-//		g_free(current_set.password);
 	}
 	else {
 		tmppass = GSTRNDUP(data->entry2);
@@ -1148,33 +1165,29 @@ void check_password(gtkentry_struct * data)
 
 	save_file();
 	set_widgets_sensitive(TRUE, FALSE);
-	//current_set.modified = 0;
 }
+/* }}} */
 
-void statusbar_message(gpointer message, gint time)
+void statusbar_message(gpointer message, gint time) /* {{{ */
 {
-
 	gint count;
 
-	count =
-		gtk_statusbar_push(GTK_STATUSBAR(statusbar), context_id,
-						   (gchar *) message);
+	count = gtk_statusbar_push(GTK_STATUSBAR(statusbar), context_id, (gchar *) message);
 	gtk_timeout_add(time, statusbar_remove, GINT_TO_POINTER(count));
 }
+/* }}} */
 
-gint statusbar_remove(gpointer message_id)
+gint statusbar_remove(gpointer message_id) /* {{{ */
 {
-	gtk_statusbar_remove(GTK_STATUSBAR(statusbar), context_id,
-						 GPOINTER_TO_INT(message_id));
+	gtk_statusbar_remove(GTK_STATUSBAR(statusbar), context_id, GPOINTER_TO_INT(message_id));
 	return 0;
 }
-
+/* }}} */
 
 /********************************************************************
  * MENUBAR CALLBACKS
  ********************************************************************/
-
-void file_open(GtkWidget * w, gpointer data)
+void file_open(GtkWidget * w, gpointer data) /* {{{ */
 {
 	if(modified_check(_("Do you want to save the changes you made to "
 						"your passwords before opening a new file?\n\n"
@@ -1199,9 +1212,9 @@ void file_open(GtkWidget * w, gpointer data)
 	}
 	tmp_gchar_const = NULL;
 }
+/* }}} */
 
-
-void file_save(GtkWidget * w, gpointer data)
+void file_save(GtkWidget * w, gpointer data) /* {{{ */
 {
 	if (current_set.filename) {
 		save_file();
@@ -1210,9 +1223,9 @@ void file_save(GtkWidget * w, gpointer data)
 		file_save_as(w, data);
 	}
 }
+/* }}} */
 
-
-void file_save_as(GtkWidget * w, gpointer data)
+void file_save_as(GtkWidget * w, gpointer data) /* {{{ */
 {
 	return_file();
 	if(tmp_gchar_const) {
@@ -1222,21 +1235,21 @@ void file_save_as(GtkWidget * w, gpointer data)
 		save_file();
 	}
 }
+/* }}} */
 
-
-void entry_new(GtkWidget * w, gpointer data)
+void entry_new(GtkWidget * w, gpointer data) /* {{{ */
 {
 	entry_dialog(GPASMAN_ENTRY_DIALOG_ADD);
 }
+/* }}} */
 
-
-void entry_change(GtkWidget * w, gpointer data)
+void entry_change(GtkWidget * w, gpointer data) /* {{{ */
 {
 	entry_dialog(GPASMAN_ENTRY_DIALOG_MODIFY);
 }
+/* }}} */
 
-
-void entry_remove(GtkWidget * w, gpointer data)
+void entry_remove(GtkWidget * w, gpointer data) /* {{{ */
 {
 	if(gtk_list_store_iter_is_valid(list_store, &selected_row))	{
 		gtk_list_store_remove(list_store, &selected_row);
@@ -1247,10 +1260,9 @@ void entry_remove(GtkWidget * w, gpointer data)
 		statusbar_message(_("You have to select a host to remove one..."), 8000);
 	}
 }
+/* }}} */
 
-
-void toggle_show_passwords(gpointer callback_data, guint callback_action,
-						   GtkWidget * toggle)
+void toggle_show_passwords(gpointer callback_data, guint callback_action, GtkWidget * toggle) /* {{{ */
 {
 	if ((GTK_CHECK_MENU_ITEM(toggle)->active)) {
 		gtk_tree_view_column_set_visible(passwd_column, TRUE);
@@ -1264,9 +1276,9 @@ void toggle_show_passwords(gpointer callback_data, guint callback_action,
 		clipboard_show_passwd = FALSE;
 	}
 }
+/* }}} */
 
-void toggle_show_comments(gpointer callback_data, guint callback_action,
-						   GtkWidget * toggle)
+void toggle_show_comments(gpointer callback_data, guint callback_action, GtkWidget * toggle) /* {{{ */
 {
 	if ((GTK_CHECK_MENU_ITEM(toggle)->active)) {
 		gtk_tree_view_column_set_visible(comments_column, TRUE);
@@ -1275,14 +1287,13 @@ void toggle_show_comments(gpointer callback_data, guint callback_action,
 		gtk_tree_view_column_set_visible(comments_column, FALSE);
 	}
 }
-
+/* }}} */
 
 /********************************************************************
  * MISC CALLBACKS FROM MENUBAR
  ********************************************************************/
-/* i think the following functions are self explaining */
 
-void gpasman_exit(GtkWidget *widget, gtkentry_struct *data)
+void gpasman_exit(GtkWidget *widget, gtkentry_struct *data) /* {{{ */
 {
 	if(modified_check(_("Do you want to save the changes you made to "
 						"your passwords before quitting?\n\n"
@@ -1291,19 +1302,22 @@ void gpasman_exit(GtkWidget *widget, gtkentry_struct *data)
 	{
 		gtk_main_quit();
 	}
-//	return TRUE;
 }
+/* }}} */
 
-gboolean gpasman_quit(GtkWidget *widget, GdkEvent *event, gpointer data)	{
+gboolean gpasman_quit(GtkWidget *widget, GdkEvent *event, gpointer data) /* {{{ */
+{
 	gpasman_exit(widget, NULL);
 	return TRUE;
 }
+/* }}} */
 
-void gpasman_about(GtkWidget *button, gtkentry_struct *data)
+void gpasman_about(GtkWidget *button, gtkentry_struct *data) /* {{{ */
 {
 	info_dialog
-		(_("Gpasman\nOriniginally written by Olivier Sessink\n"
+		(_("Gpasman\nOriginally written by Olivier Sessink\n"
 		 "because he forgot a password\n\n"
+		 "Hildonized by Antony Dovgal <tony@daylessday.org>\n\n"
 		 "(C) 1998-1999 - Olivier Sessink <gpasman@nl.linux.org>\n"
 		 "(C) 2003 - T. Bugra Uytun <t.bugra@uytun.com>\n"
 		 "http://gpasman.sourceforge.net\n\n"
@@ -1311,8 +1325,9 @@ void gpasman_about(GtkWidget *button, gtkentry_struct *data)
 		 "library by Matthew Palmer"),
 		 _("About gpasman"));
 }
+/* }}} */
 
-void gpasman_help(GtkWidget *button, gtkentry_struct *data)
+void gpasman_help(GtkWidget *button, gtkentry_struct *data) /* {{{ */
 {
 	info_dialog(_("Gpasman - a password manager\n\n"
 				"Gpasman encrypts a lot of passwords using one master\n"
@@ -1331,8 +1346,9 @@ void gpasman_help(GtkWidget *button, gtkentry_struct *data)
 				"explaining stuff."),
 				_("Help"));
 }
+/* }}} */
 
-void info_dialog(gchar *message, gchar *title)
+void info_dialog(gchar *message, gchar *title) /* {{{ */
 {
 	GtkWidget *dialog;
 
@@ -1349,3 +1365,9 @@ void info_dialog(gchar *message, gchar *title)
 
 	gtk_widget_show_all(dialog);
 }
+/* }}} */
+
+/*
+ * vim600: sw=4 ts=4 fdm=marker
+ */
+

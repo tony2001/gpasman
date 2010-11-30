@@ -53,6 +53,10 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_MODE_T
 
+PKG_CHECK_MODULES([HILDON], hildon-1 >= 1.99)
+AC_SUBST(HILDON_CFLAGS)
+AC_SUBST(HILDON_LIBS)
+
 dnl the final output
 AC_OUTPUT([Makefile
 	src/Makefile
