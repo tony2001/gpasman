@@ -397,7 +397,7 @@ void make_interface(void)
 
 static char *menu_translate(const char *path, gpointer data)
 {
-    return gettext (path);
+    return (char *)gettext (path);
 }
 
 

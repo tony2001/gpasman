@@ -29,13 +29,13 @@ DIE=0
 #	DIE=1
 #}
 
-(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
-	echo
-	echo "You must have intltool installed to compile $PROJECT."
-	echo "Get ftp://ftp.gnome.org/pub/GNOME/stable/sources/intltool/intltool-0.16.tar.gz"
-	echo "(or a newer version if it is available)"
-	DIE=1
-}
+#(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+#	echo
+#	echo "You must have intltool installed to compile $PROJECT."
+#	echo "Get ftp://ftp.gnome.org/pub/GNOME/stable/sources/intltool/intltool-0.16.tar.gz"
+#	echo "(or a newer version if it is available)"
+#	DIE=1
+#}
 
 (automake --version) < /dev/null > /dev/null 2>&1 || {
 	echo
@@ -66,8 +66,8 @@ esac
 #echo "Running gettextize..."
 #glib-gettextize --copy --force
 
-echo "Running intltoolize"
-intltoolize --copy --force --automake
+#echo "Running intltoolize"
+#intltoolize --copy --force --automake
 
 #echo "Running libtoolize"
 #libtoolize --copy --force

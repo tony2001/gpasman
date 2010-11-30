@@ -1,12 +1,9 @@
 MAINTAINERCLEANFILES = Makefile.in \
 	gpasman.desktop \
 	configure config.guess config.sub aclocal.m4 autom4te.cache \
-	intltool-extract intltool-merge intltool-update \
 	@PACKAGE@-@VERSION@.tar.gz
 
-SUBDIRS = src po pixmaps
-
-@INTLTOOL_DESKTOP_RULE@
+SUBDIRS = src pixmaps
 
 DESKTOP_IN_FILES = gpasman.desktop.in
 DESKTOP_FILES = $(DESKTOP_IN_FILES:.desktop.in=.desktop)
@@ -23,8 +20,5 @@ EXTRA_DIST = \
 	rc2-1.1.0/ \
 	LICENCE.Artistic \
 	LICENCE.GPLv2 \
-	intltool-update.in \
-	intltool-merge.in \
-	intltool-extract.in \
 	autogen.sh
 
