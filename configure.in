@@ -25,17 +25,15 @@ AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
 GTK_VERSION=`$PKG_CONFIG --modversion gtk+-2.0`
-AC_MSG_CHECKING([for 2.0.0 >= gtk+ < 2.3])
-case $GTK_VERSION in		
+AC_MSG_CHECKING([for 2.0.0 >= gtk+])
+case $GTK_VERSION in
 	2.0.*)
 		AC_MSG_RESULT([yes])
-		GTK_PATCH="-DGTK_PATCH=1"
+		GTK_PATCH="-DGTK_PATCH"
 		AC_SUBST(GTK_PATCH)
 		;;
-	2.1.*|2.2.*)
+	2.*)
 		AC_MSG_RESULT([yes])
-		GTK_PATCH="-DGTK_PATCH=0"
-		AC_SUBST(GTK_PATCH)
 		;;
 	*)
 		AC_MSG_RESULT([no])
