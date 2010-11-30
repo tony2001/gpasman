@@ -1,0 +1,102 @@
+----Gpasman 1.9.3----
+- Selecting an entry automatically copies username to clipboard
+- Activating (i.e., double-clicking) on an entry copies the password
+  to the clipboard
+- "Show password" menu item now also controls the visibility of passwords
+  in the clipboard entry on the taskbar
+- main window can now be arbitrarily resized by user, but same default
+- comments column can now be deactivated under the "View" menu
+- changed clipboard management:
+  * GDK/Gtk clipboard interface used now, instead of GtkEditable facility
+  * "clipboard_use" now reflects type of contents (type by enumeration)
+
+----Gpasman 1.9.2----
+- fixed german translation (thanks to Holger Leskien)
+- fixed translation of menu widgets
+- gnome.desktop file is now translated
+- rpm spec file added (thanks to Dag Wieers)
+- the password is no longer stored as plain text in memory but this caused to
+  remove the current password verification while changing master password.
+- fixed gtk 2.0.x build (thanks for reporting Dag)
+- current filename appears on the main window title
+- fixed a small bug with /file/open
+- 
+
+----Gpasman 1.9.1b ----
+- new homepage at http://gpasman.sourceforge.net
+- fixed a bug when no host entry is selected and trying to modify one entry.
+- added cancel button to main password window.
+- gui improvements (gnome HIG 1.0)
+- popup menu on entries
+- internationalization (intltools) - NEED translators!!!
+- file.c cleanup
+- now using autotools
+- fixed segfault if the .gpasman file is too big
+- 
+
+----Gpasman 1.9.1a ----
+- gtkClist ported to gtkTreeView (hopefully without any errors)
+- added gpasman.desktop file & png icon for it
+- added debian directory
+- solved bug (adding new entry after cleaning was impossible)
+
+----Gpasman 1.9.0----
+
+- gtk2 port
+- all gtk_signal_connect()'s converted to g_signal_connect (gtk2)
+- better dialog windows for questions
+- almost every dialog window converted to gtk_dialog
+- avoiding multiple gtk_main/gtk_main_quit calls
+- menu is no longer dragable (gnome2 HIG)
+- menu entries are sensible
+- menu items got icons (nice...)
+- more glib & gtk conform so portable (uses less native functions)
+
+----Gpasman 1.3.0----
+A complete rewrite
+
+the file format is now in file.c, this file does not need gtk/glib, and can
+be included in any other interface (cgi, ncurses) using file.h
+
+the interface is in gpasman.c and is completely rewritten, and made more
+intuitive. All the most requested features are implemented.
+
+----Gpasman 1.2.0----
+No changes, 1.1.3 was stable
+
+----Gpasman 1.1.3----
+An incredible stupid bug --> forgot to change the name of a #define, saving 
+did not work in 1.1.2.
+
+----Gpasman 1.1.2----
+Fixed a symlink  in the src tree
+Worked around a bug when the platform is big endian instead of little endian
+
+gpasman-1.1.2 is still compatible with the gpasman-1.1.0 ~/.gpasman file 
+
+----Gpasman 1.1.1----
+the rc2 library is now static linked and distributed together with the 
+gpasman sourcecode.  
+str*'s are replaced by strn*'s
+multiple copies of gpasman will not run anymore at the same time
+(using $HOME/.gpasman.swp as lockfile)
+
+gpasman-1.1.1 is compatible with the gpasman-1.1.0 ~/.gpasman file 
+
+----Gpasman 1.1.0----
+encryption is changed, it is *not* compatible with gpasman-1.0 encryption!
+backup your passwords before updating gpasman!
+David Rudder added PKCS 5 padding, and used the CBC mode for encryption
+(now we only need the MD5 hash)
+the user interface is changed, allowing sorting, and changing of entries
+gtk-1.2 is now required
+numbers changed to indicate this is an development version
+
+----Gpasman 1.0----
+added checks if the datafile is a regular file with the proper permissions
+(-rw------). Otherwise exit the program. The user interface changed a little
+bit, but no major changes. Some confirmation dialogs are added (clear all
+entrie, exit without saving). 
+
+----Gpasman 0.9----
+the first version

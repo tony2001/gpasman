@@ -1,0 +1,369 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-19 09:31+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gpasman.c:192
+msgid "Could not open default file."
+msgstr ""
+
+#: src/gpasman.c:205
+msgid "/_File"
+msgstr ""
+
+#: src/gpasman.c:206
+msgid "/File/_Open"
+msgstr ""
+
+#: src/gpasman.c:207 src/gpasman.c:210
+msgid "/File/sep1"
+msgstr ""
+
+#: src/gpasman.c:208
+msgid "/File/_Save"
+msgstr ""
+
+#: src/gpasman.c:209
+msgid "/File/Save _As..."
+msgstr ""
+
+#: src/gpasman.c:211
+msgid "/File/Close"
+msgstr ""
+
+#: src/gpasman.c:212
+msgid "/File/Quit"
+msgstr ""
+
+#: src/gpasman.c:213 src/gpasman.c:228
+msgid "/_Edit"
+msgstr ""
+
+#: src/gpasman.c:214
+msgid "/Edit/New entry"
+msgstr ""
+
+#: src/gpasman.c:215
+msgid "/Edit/Edit entry"
+msgstr ""
+
+#: src/gpasman.c:216
+msgid "/Edit/Delete entry"
+msgstr ""
+
+#: src/gpasman.c:217
+msgid "/Edit/sep1"
+msgstr ""
+
+#: src/gpasman.c:218
+msgid "/Edit/Change password"
+msgstr ""
+
+#: src/gpasman.c:219
+msgid "/_View"
+msgstr ""
+
+#: src/gpasman.c:220
+msgid "/View/Show comments"
+msgstr ""
+
+#: src/gpasman.c:221
+msgid "/View/Show passwords"
+msgstr ""
+
+#: src/gpasman.c:222
+msgid "/_Help"
+msgstr ""
+
+#: src/gpasman.c:223
+msgid "/_Help/Help"
+msgstr ""
+
+#: src/gpasman.c:224
+msgid "/_Help/About"
+msgstr ""
+
+#. {N_("/_New entry"), NULL, entry_new, 0, NULL},
+#: src/gpasman.c:230
+msgid "/_Delete"
+msgstr ""
+
+#: src/gpasman.c:291
+msgid "Host"
+msgstr ""
+
+#: src/gpasman.c:301
+msgid "User"
+msgstr ""
+
+#: src/gpasman.c:310
+msgid "Password"
+msgstr ""
+
+#: src/gpasman.c:320
+msgid "Comments"
+msgstr ""
+
+#: src/gpasman.c:344
+msgid " Clipboard: "
+msgstr ""
+
+#: src/gpasman.c:355
+msgid "Doubleclick an entry to copy the password"
+msgstr ""
+
+#: src/gpasman.c:365
+msgid "Initialising..."
+msgstr ""
+
+#: src/gpasman.c:467
+msgid "Username copied to clipboard"
+msgstr ""
+
+#: src/gpasman.c:498
+msgid "Password copied to clipboard"
+msgstr ""
+
+#: src/gpasman.c:554
+msgid "Master password"
+msgstr ""
+
+#: src/gpasman.c:567
+#, c-format
+msgid ""
+"Enter master password for\n"
+"%s:"
+msgstr ""
+
+#: src/gpasman.c:585
+#, c-format
+msgid "Password has to be > %d characters"
+msgstr ""
+
+#: src/gpasman.c:613
+msgid "Select file"
+msgstr ""
+
+#: src/gpasman.c:657
+msgid "Load initialised"
+msgstr ""
+
+#: src/gpasman.c:660
+msgid "Can't open file"
+msgstr ""
+
+#: src/gpasman.c:663 src/gpasman.c:746
+msgid "File permissions bad, should be -rw-------"
+msgstr ""
+
+#: src/gpasman.c:666 src/gpasman.c:750
+msgid "File is a symlink"
+msgstr ""
+
+#: src/gpasman.c:669 src/gpasman.c:753
+msgid "Can't get file status"
+msgstr ""
+
+#: src/gpasman.c:672 src/gpasman.c:756
+msgid "Internal program error"
+msgstr ""
+
+#: src/gpasman.c:697
+msgid "Last entry loaded"
+msgstr ""
+
+#: src/gpasman.c:740
+msgid "Save initialised"
+msgstr ""
+
+#: src/gpasman.c:743
+msgid "Can't open/create file"
+msgstr ""
+
+#: src/gpasman.c:770 src/gpasman.c:778
+msgid "Error writing file, contents not saved"
+msgstr ""
+
+#: src/gpasman.c:781
+msgid "Save finished"
+msgstr ""
+
+#: src/gpasman.c:793
+msgid ""
+"Do you want to save the changes you made to your passwords before closing?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+
+#: src/gpasman.c:872
+msgid "New entry"
+msgstr ""
+
+#: src/gpasman.c:873
+msgid "_Add"
+msgstr ""
+
+#: src/gpasman.c:877
+msgid "Edit entry"
+msgstr ""
+
+#: src/gpasman.c:878
+msgid "_Edit"
+msgstr ""
+
+#: src/gpasman.c:881
+msgid "You have to select a host to update one..."
+msgstr ""
+
+#. creating the labels and entries
+#: src/gpasman.c:904
+msgid "Host:"
+msgstr ""
+
+#: src/gpasman.c:910
+msgid "User:"
+msgstr ""
+
+#: src/gpasman.c:916
+msgid "Password:"
+msgstr ""
+
+#: src/gpasman.c:922
+msgid "Comment:"
+msgstr ""
+
+#: src/gpasman.c:1015
+msgid ""
+"To change the master password I have to save the modifications.\n"
+"\n"
+"Save modifications to continue?"
+msgstr ""
+
+#: src/gpasman.c:1033
+msgid "Change master password"
+msgstr ""
+
+#. label = gtk_label_new(_("Old password:"));
+#. gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+#. gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+#. dialog->entry1 = gtk_entry_new_with_max_length(25);
+#. gtk_entry_set_visibility(GTK_ENTRY(dialog->entry1), 0);
+#. gtk_entry_set_text(GTK_ENTRY(dialog->entry1), "");
+#. gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry1, 1, 2, 0, 1);
+#.
+#: src/gpasman.c:1057
+msgid "New password:"
+msgstr ""
+
+#: src/gpasman.c:1065
+msgid "Confirm password:"
+msgstr ""
+
+#: src/gpasman.c:1114 src/gpasman.c:1136
+#, c-format
+msgid "Master password has to be > %d characters"
+msgstr ""
+
+#: src/gpasman.c:1125
+msgid "New master passwords not identical"
+msgstr ""
+
+#: src/gpasman.c:1146
+msgid "Master password changed"
+msgstr ""
+
+#: src/gpasman.c:1178
+msgid ""
+"Do you want to save the changes you made to your passwords before opening a "
+"new file?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+
+#: src/gpasman.c:1193
+msgid "No file selected"
+msgstr ""
+
+#: src/gpasman.c:1196
+msgid "Could not open file"
+msgstr ""
+
+#: src/gpasman.c:1243
+msgid "Successfully removed."
+msgstr ""
+
+#: src/gpasman.c:1246
+msgid "You have to select a host to remove one..."
+msgstr ""
+
+#: src/gpasman.c:1286
+msgid ""
+"Do you want to save the changes you made to your passwords before quitting?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+
+#: src/gpasman.c:1304
+msgid ""
+"Gpasman\n"
+"Oriniginally written by Olivier Sessink\n"
+"because he forgot a password\n"
+"\n"
+"(C) 1998-1999 - Olivier Sessink <gpasman@nl.linux.org>\n"
+"(C) 2003 - T. Bugra Uytun <t.bugra@uytun.com>\n"
+"http://gpasman.sourceforge.net\n"
+"\n"
+"the rc2 encryption is based on the rc2\n"
+"library by Matthew Palmer"
+msgstr ""
+
+#: src/gpasman.c:1311
+msgid "About gpasman"
+msgstr ""
+
+#: src/gpasman.c:1316
+msgid ""
+"Gpasman - a password manager\n"
+"\n"
+"Gpasman encrypts a lot of passwords using one master\n"
+"password. Every time you load or save a new file a\n"
+"master password is asked to (un)lock the contents.\n"
+"\n"
+"You can change this master password using \"change password\".\n"
+"The contents can be edited using \"new entry\", \"update entry\"\n"
+"and \"remove entry\". If you have a lot of entries, sort them by\n"
+"clicking on the titles of the list.\n"
+"\n"
+"Doubleclicking an entry puts the password on the clipboard\n"
+"so you can simply paste it into your\n"
+"password asking application using the middle mouse\n"
+"button. Errors messages are put only on the statusbar,\n"
+"no annoying dialogs. If present, the file ~/.gpasman will be\n"
+"opened at startup. The rest should be pretty self\n"
+"explaining stuff."
+msgstr ""
+
+#: src/gpasman.c:1331
+msgid "Help"
+msgstr ""
+
+#: gpasman.desktop.in.h:1
+msgid "Personal password manager"
+msgstr ""
+
+#: gpasman.desktop.in.h:2
+msgid "gpasman"
+msgstr ""

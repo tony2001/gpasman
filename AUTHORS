@@ -1,0 +1,28 @@
+Special Thanks
+--------------
+i want to thank you all people who's name is in this list and i forgot to name
+him/her here for his/her cotribution to this project!
+
+
+Original Author
+---------------
+Gpasman: 	Olivier Sessink
+		gpasman@nl.linux.org
+
+
+Current Maintainer(s)
+------------------
+T. Bugra Uytun <t.bugra@uytun.com>
+
+
+With help from:
+---------------
+Sourav K. Mandal <smandal@uclink.berkeley.edu> 	(1.9.3 rel is based on his efforts)
+Dag Wieers <dag@wieers.com>					(rpm spec - RedHat packager)
+Holger Leskien <holger.leskien@gmx.de>		(translator - german)
+Matthew Palmer								(rc2 library)
+Chris Halverson 
+Dave Rudder
+Guide Berning
+Jimmy Mason
+

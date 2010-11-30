@@ -1,0 +1,10 @@
+[Desktop Entry]
+_Name=gpasman
+_Comment=Personal password manager
+Exec=gpasman
+Terminal=false
+Type=Application
+Icon=gpasman.png
+Categories=Application;Other;
+Encoding=UTF-8
+

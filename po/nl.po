@@ -1,0 +1,419 @@
+# Dutch Translation of gpasman.
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Elie De Brauwer <elie@de-brauwer.be>, 2003.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gpasman 1.9.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-19 09:31+0100\n"
+"PO-Revision-Date: 2003-08-30 10:50+0100\n"
+"Last-Translator: Elie De Brauwer <elie@de-brauwer.be>\n"
+"Language-Team: <gpasman-devel@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gpasman.c:192
+msgid "Could not open default file."
+msgstr "Kon het standaard bestand niet openen."
+
+#: src/gpasman.c:205
+msgid "/_File"
+msgstr "/_Bestand"
+
+#: src/gpasman.c:206
+msgid "/File/_Open"
+msgstr "/Bestand/_Openen"
+
+#: src/gpasman.c:207 src/gpasman.c:210
+msgid "/File/sep1"
+msgstr "/Bestand/sep1"
+
+#: src/gpasman.c:208
+msgid "/File/_Save"
+msgstr "/Bestand/_Opslaan"
+
+#: src/gpasman.c:209
+msgid "/File/Save _As..."
+msgstr "/Bestand/Opslaan _als..."
+
+#: src/gpasman.c:211
+msgid "/File/Close"
+msgstr "/Bestand/Sluiten"
+
+#: src/gpasman.c:212
+msgid "/File/Quit"
+msgstr "/Bestand/Exit"
+
+#: src/gpasman.c:213 src/gpasman.c:228
+msgid "/_Edit"
+msgstr "/_Bewerken"
+
+#: src/gpasman.c:214
+msgid "/Edit/New entry"
+msgstr "/Bewerken/Nieuw item"
+
+#: src/gpasman.c:215
+msgid "/Edit/Edit entry"
+msgstr "/Bewerken/Item bewerken"
+
+#: src/gpasman.c:216
+msgid "/Edit/Delete entry"
+msgstr "/Bewerken/Verwijder item"
+
+#: src/gpasman.c:217
+msgid "/Edit/sep1"
+msgstr "/Bewerken/sep1"
+
+#: src/gpasman.c:218
+msgid "/Edit/Change password"
+msgstr "/Bewerken/Paswoord wijzigen"
+
+#: src/gpasman.c:219
+msgid "/_View"
+msgstr "/_Tonen"
+
+#: src/gpasman.c:220
+#, fuzzy
+msgid "/View/Show comments"
+msgstr "/Tonen/Toon Paswoorden"
+
+#: src/gpasman.c:221
+msgid "/View/Show passwords"
+msgstr "/Tonen/Toon Paswoorden"
+
+#: src/gpasman.c:222
+msgid "/_Help"
+msgstr "/_Help"
+
+#: src/gpasman.c:223
+msgid "/_Help/Help"
+msgstr "/_Help/Help"
+
+#: src/gpasman.c:224
+msgid "/_Help/About"
+msgstr "/_Help/Over"
+
+#. {N_("/_New entry"), NULL, entry_new, 0, NULL},
+#: src/gpasman.c:230
+msgid "/_Delete"
+msgstr "/_Verwijderen"
+
+#: src/gpasman.c:291
+msgid "Host"
+msgstr "Host"
+
+#: src/gpasman.c:301
+msgid "User"
+msgstr "Gebruikersnaam"
+
+#: src/gpasman.c:310
+msgid "Password"
+msgstr "Paswoord"
+
+#: src/gpasman.c:320
+msgid "Comments"
+msgstr "Commentaar"
+
+#: src/gpasman.c:344
+msgid " Clipboard: "
+msgstr " Plakbord: "
+
+#: src/gpasman.c:355
+msgid "Doubleclick an entry to copy the password"
+msgstr "Dubbelklik op een item om het paswoord te kopieren"
+
+#: src/gpasman.c:365
+msgid "Initialising..."
+msgstr "Initialiseren..."
+
+#: src/gpasman.c:467
+msgid "Username copied to clipboard"
+msgstr ""
+
+#: src/gpasman.c:498
+msgid "Password copied to clipboard"
+msgstr ""
+
+#: src/gpasman.c:554
+msgid "Master password"
+msgstr "Hoofdpaswoord"
+
+#: src/gpasman.c:567
+#, c-format
+msgid ""
+"Enter master password for\n"
+"%s:"
+msgstr ""
+"Geef het hoofdpaswoord voor\n"
+"%s:"
+
+#: src/gpasman.c:585
+#, c-format
+msgid "Password has to be > %d characters"
+msgstr "Het paswoord moet meer dan  %d karakters bevatten"
+
+#: src/gpasman.c:613
+msgid "Select file"
+msgstr "Kies bestand"
+
+#: src/gpasman.c:657
+msgid "Load initialised"
+msgstr "Laden gestart"
+
+#: src/gpasman.c:660
+msgid "Can't open file"
+msgstr "Kan het bestand niet openen"
+
+#: src/gpasman.c:663 src/gpasman.c:746
+msgid "File permissions bad, should be -rw-------"
+msgstr "Verkeerde permissies, deze moeten  -rw------- zijn"
+
+#: src/gpasman.c:666 src/gpasman.c:750
+msgid "File is a symlink"
+msgstr "Bestand is een symbolische link"
+
+#: src/gpasman.c:669 src/gpasman.c:753
+msgid "Can't get file status"
+msgstr "Kan de bestandsstatus niet leze"
+
+#: src/gpasman.c:672 src/gpasman.c:756
+msgid "Internal program error"
+msgstr "Interne fout"
+
+#: src/gpasman.c:697
+msgid "Last entry loaded"
+msgstr "Laatste item geladen"
+
+#: src/gpasman.c:740
+msgid "Save initialised"
+msgstr "Opslaan gestart"
+
+#: src/gpasman.c:743
+msgid "Can't open/create file"
+msgstr "Bestand kan niet geopend/gemaakt worden"
+
+#: src/gpasman.c:770 src/gpasman.c:778
+msgid "Error writing file, contents not saved"
+msgstr "Kan het bestand niet schrijven, inhoud niet opgeslagen"
+
+#: src/gpasman.c:781
+msgid "Save finished"
+msgstr "Klaar met opslaan"
+
+#: src/gpasman.c:793
+msgid ""
+"Do you want to save the changes you made to your passwords before closing?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+"Wenst u de wijzigen aan uw paswoorden op te slaan alvorens te stoppen?\n"
+"\n"
+"Uw wijzigingen zullen verloren gaan indien u deze niet opslaat."
+
+#: src/gpasman.c:872
+msgid "New entry"
+msgstr "Nieuw item"
+
+#: src/gpasman.c:873
+msgid "_Add"
+msgstr "_Toevoegen"
+
+#: src/gpasman.c:877
+msgid "Edit entry"
+msgstr "Item bewerken"
+
+#: src/gpasman.c:878
+msgid "_Edit"
+msgstr "_Bewerken"
+
+#: src/gpasman.c:881
+msgid "You have to select a host to update one..."
+msgstr "U moet een host selecteren om te wijzigen..."
+
+#. creating the labels and entries
+#: src/gpasman.c:904
+msgid "Host:"
+msgstr "Host:"
+
+#: src/gpasman.c:910
+msgid "User:"
+msgstr "Gebruikersnaam:"
+
+#: src/gpasman.c:916
+msgid "Password:"
+msgstr "Paswoord:"
+
+#: src/gpasman.c:922
+msgid "Comment:"
+msgstr "Opmerkingen:"
+
+#: src/gpasman.c:1015
+msgid ""
+"To change the master password I have to save the modifications.\n"
+"\n"
+"Save modifications to continue?"
+msgstr ""
+"Om het hoofdpaswoord te wijzigen moet ik de wijzigen nu opslaan.\n"
+"\n"
+"Wijzigingen nu opslaan om verder te gaan?"
+
+#: src/gpasman.c:1033
+msgid "Change master password"
+msgstr "Hoofdpaswoord wijzigen"
+
+#. label = gtk_label_new(_("Old password:"));
+#. gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+#. gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+#. dialog->entry1 = gtk_entry_new_with_max_length(25);
+#. gtk_entry_set_visibility(GTK_ENTRY(dialog->entry1), 0);
+#. gtk_entry_set_text(GTK_ENTRY(dialog->entry1), "");
+#. gtk_table_attach_defaults(GTK_TABLE(table), dialog->entry1, 1, 2, 0, 1);
+#.
+#: src/gpasman.c:1057
+msgid "New password:"
+msgstr "Nieuw paswoord:"
+
+#: src/gpasman.c:1065
+msgid "Confirm password:"
+msgstr "Paswoord bevestigen:"
+
+#: src/gpasman.c:1114 src/gpasman.c:1136
+#, c-format
+msgid "Master password has to be > %d characters"
+msgstr "Hoofdpaswoord moet minstens %d tekens hebben."
+
+#: src/gpasman.c:1125
+msgid "New master passwords not identical"
+msgstr "De nieuwe hoofdpaswoorden zijn niet identiek"
+
+#: src/gpasman.c:1146
+msgid "Master password changed"
+msgstr "Hoofdpaswoord gewijzigd"
+
+#: src/gpasman.c:1178
+msgid ""
+"Do you want to save the changes you made to your passwords before opening a "
+"new file?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+"Wenst u uw wijzigingen aan uw paswoorden op te slaan aloverens een nieuw "
+"bestand te openen?\n"
+"\n"
+"Uw wijzigingen gaan verloren als u ze niet opslaat."
+
+#: src/gpasman.c:1193
+msgid "No file selected"
+msgstr "Geen bestand geselecteerd"
+
+#: src/gpasman.c:1196
+msgid "Could not open file"
+msgstr "Kon het bestand niet openen"
+
+#: src/gpasman.c:1243
+msgid "Successfully removed."
+msgstr "Succesvol verwijderd."
+
+#: src/gpasman.c:1246
+msgid "You have to select a host to remove one..."
+msgstr "U dient een host te selecteren om deze te verwijderen..."
+
+#: src/gpasman.c:1286
+msgid ""
+"Do you want to save the changes you made to your passwords before quitting?\n"
+"\n"
+"Your changes will be lost if you don't save them."
+msgstr ""
+"Wilt u de wijzigingen aan uw paswoorden opslaan alvorens af te sluiten?\n"
+"\n"
+"Uw wijzigingen gaan verloren indien u deze niet opslaat."
+
+#: src/gpasman.c:1304
+msgid ""
+"Gpasman\n"
+"Oriniginally written by Olivier Sessink\n"
+"because he forgot a password\n"
+"\n"
+"(C) 1998-1999 - Olivier Sessink <gpasman@nl.linux.org>\n"
+"(C) 2003 - T. Bugra Uytun <t.bugra@uytun.com>\n"
+"http://gpasman.sourceforge.net\n"
+"\n"
+"the rc2 encryption is based on the rc2\n"
+"library by Matthew Palmer"
+msgstr ""
+"Gpasman\n"
+"Oorspronkelijk geschreven door Olivier Sessink,\n"
+"omdat hij een paswoord vergeten was\n"
+"\n"
+"(C) 1998-1999 - Olivier Sessink <gpasman@nl.linux.org>\n"
+"(C) 2003 - T. Bugra Uytun <t.bugra@uytun.com>\n"
+"http://gpasman.sourceforge.net\n"
+"\n"
+"de rc2 encryptie is gebaseerd op de rc2\n"
+"bibliotheek van  Matthew Palmer"
+
+#: src/gpasman.c:1311
+msgid "About gpasman"
+msgstr "Over gpasman"
+
+#: src/gpasman.c:1316
+msgid ""
+"Gpasman - a password manager\n"
+"\n"
+"Gpasman encrypts a lot of passwords using one master\n"
+"password. Every time you load or save a new file a\n"
+"master password is asked to (un)lock the contents.\n"
+"\n"
+"You can change this master password using \"change password\".\n"
+"The contents can be edited using \"new entry\", \"update entry\"\n"
+"and \"remove entry\". If you have a lot of entries, sort them by\n"
+"clicking on the titles of the list.\n"
+"\n"
+"Doubleclicking an entry puts the password on the clipboard\n"
+"so you can simply paste it into your\n"
+"password asking application using the middle mouse\n"
+"button. Errors messages are put only on the statusbar,\n"
+"no annoying dialogs. If present, the file ~/.gpasman will be\n"
+"opened at startup. The rest should be pretty self\n"
+"explaining stuff."
+msgstr ""
+"Gpasman - een paswoord beheerder\n"
+"\n"
+"Gpasman versleutelt veel paswoorden door gebruik te maken van\n"
+"een hoofdpaswoord. Telkens men een bestand laadt of een nieuw\n"
+"opslaat is het hoofdpaswoord gevraagd om de inhouden te\n"
+"(ver)ontsleutelen.\n"
+"\n"
+"Men kan het hoordpaswoord wijzigen met \"Paswoord wijzigen\"\n"
+"De inhoud kan bewerkt worden met  \"Nieuw item\",\n"
+"\"Item bewerken\" en \"item verwijderen\".\n"
+"Wanneer u veel items heeft kan u deze sorteren door \n"
+"op de lijsttitels te klikken.\n"
+"\n"
+"Het dubbelklikken op een item plaatst het paswoord in het\n"
+"plakbord zodat je het gewoon in uw applicatie waar het \n"
+"paswoord gevraagd werd kan plakken door de middelmuisknop\n"
+"te gebruiken. Foutboodschappen worden op de statusbalk \n"
+"geplaatst, geen irritante dialoogvensters.\n"
+"Bij het starten wordt ~/.gpasman geopend (indien aanwezig).\n"
+"De rest zou zichzelf moeten uitleggen."
+
+#: src/gpasman.c:1331
+msgid "Help"
+msgstr "Help"
+
+#: gpasman.desktop.in.h:1
+msgid "Personal password manager"
+msgstr "Persoonlijke paswoord beheerder"
+
+#: gpasman.desktop.in.h:2
+msgid "gpasman"
+msgstr "gpasman"
+
+#~ msgid "/File/Save"
+#~ msgstr "/Bestand/Opslaan"
+
+#~ msgid "/File/Save As..."
+#~ msgstr "/Bestand/Opslaan Als..."

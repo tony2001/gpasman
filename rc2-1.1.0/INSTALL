@@ -1,0 +1,17 @@
+Configuration:
+Edit the Makefile.  Change anything that needs changing.  It's all
+self-explanatory.
+
+Compilation and installation is super-simple.  Just type one of the following:
+
+make all - if you want the library and example compiled and installed
+make librc2 - if you just want the library compiled
+make i_librc2 - if you just want the library compiled and the library and
+	include file installed
+make rc2 - if you just want the example program compiled
+make i_rc2 - if you just want the example program made and installed
+
+
+---------------
+Matthew Palmer
+<mjp16@uow.edu.au>

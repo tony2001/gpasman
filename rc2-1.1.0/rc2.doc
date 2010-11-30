@@ -1,0 +1,44 @@
+This is a library of routines that implements the RC2 algorithm, as
+described in RFC2268.  It consists of the following routines:
+
+rc2_expand_key(char[] key, int length, int effective_key_length);
+
+This places the given key (consisting of an array of chars of length length)
+into the 128 byte key buffer (internal).  The maths is interesting, but the
+outcome is that each byte of the expanded key depends on every byte of the
+given key.
+
+The effective_key_length specifies how much of the given key to actually
+use.  This is a throwback to the underlying algorithm used.  Usually it
+should be the same as length.
+
+rc2_encrypt(unsigned short input[4]);
+
+Encrypts the given 8 bytes and places the result in the same place, using
+the previously expanded key.
+
+rc2_decrypt(unsigned short input[4]);
+
+The reverse operation from above, again using the previously expanded key.
+
+In short, therefore, the following actions take place to encrypt a piece of
+data:
+
+rc2_expand_key();
+while (data left to encrypt) {
+	rc2_encrypt();
+}
+
+And a similar operation for decryption.
+
+An example application, written by myself, is provided.  This program
+endeavours to either encrypt or decrypt stdin (depending on how it is
+invoked) and print the results to stdout, using the supplied key and other
+data.
+
+Any questions, comments, bug reports, can go to moi at the address below,
+all flames (for whatever reason) can be happily poured to /dev/null.
+
+------------------
+Matthew Palmer
+<mjp16@uow.edu.au>
