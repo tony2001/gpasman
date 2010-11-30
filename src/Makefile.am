@@ -20,7 +20,7 @@ EXTRA_CFLAGS = $(OPT) $(WARN) $(DEBUG)
 INCLUDES = \
 	$(GTK_CFLAGS)
 
-CFLAGS = \
+AM_CFLAGS = \
 	$(EXTRA_CFLAGS)
 
 gpasman_LDADD = \
