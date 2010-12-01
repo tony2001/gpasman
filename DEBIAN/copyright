@@ -1,0 +1,17 @@
+This package was debianized by T. Bugra Uytun <t.bugra@uytun.com> on
+Mon, 10 Feb 2003 17:21:09 +0100.
+
+It was downloaded from <fill in ftp site>
+
+Upstream Author(s): T. Bugra Uytun <t.bugra@uytun.com>
+
+Copyright:
+
+Gpasman	(C) 1998, 1999 Olivier Sessink <olivier@lx.student.wau.nl>
+        (C) T. Bugra Uytun <t.bugra@uytun.com>
+        Under the GPL version 2 or higher.
+
+rc2 library staticly linked
+        (C) Matthew Palmer <mjp16@uow.edu.au>
+        Under artistic licence; included as LICENCE.Artistic.
+

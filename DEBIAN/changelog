@@ -1,0 +1,31 @@
+gpasman (1.9.3-1) unstable; urgency=low
+
+  * new upstream
+
+ -- T. Bugra Uytun <t.bugra@uytun.com>  Mon, 19 Jan 2004 09:13:03 +0100
+
+gpasman (1.9.2-1) unstable; urgency=low
+
+  * new upstream
+
+ -- T. Bugra Uytun <t.bugra@uytun.com>  Tue, 25 Mar 2003 13:45:39 +0100
+
+gpasman (1.9.1b-1) unstable; urgency=low
+
+  * new upstream
+
+ -- T. Bugra Uytun <t.bugra@uytun.com>  Sat, 22 Mar 2003 17:36:07 +0100
+
+gpasman (1.9.1a-1) unstable; urgency=low
+
+  * bleading edge dev upstream
+
+ -- T. Bugra Uytun <t.bugra@uytun.com>  Fri, 21 Feb 2003 16:21:14 +0100
+
+gpasman (1.9.0-1) unstable; urgency=low
+
+  * Initial Release.
+  * ported to gtk2
+
+ -- T. Bugra Uytun <t.bugra@uytun.com>  Mon, 10 Feb 2003 17:21:09 +0100
+

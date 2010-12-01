@@ -1,0 +1,10 @@
+Package: gpasman 
+Section: user/utils 
+Priority: optional
+Maintainer: Antony Dovgal <tony@daylessday.org>
+Version: 1.9.3
+Architecture: armel 
+Description: Personal password manager
+ Keeps track of all your passwords in a secure way
+ Gpasman encrypts it's data using the rc2 algorithm as described in RFC2268,
+ and implemented in the rc2 library by Matthew Palmer.
